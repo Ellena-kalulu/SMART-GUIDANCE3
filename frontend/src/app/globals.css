@@ -1,0 +1,21 @@
+﻿@import "tailwindcss";
+
+:root {
+  --brand-50: #eff6ff;
+  --brand-500: #3b82f6;
+  --brand-600: #2563eb;
+  --brand-700: #1d4ed8;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.hero-gradient {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37, 99, 235, 0.15), transparent),
+    radial-gradient(ellipse 60% 50% at 90% 80%, rgba(59, 130, 246, 0.1), transparent),
+    linear-gradient(135deg, #eff6ff 0%, #ffffff 40%, #f0f7ff 100%);
+}

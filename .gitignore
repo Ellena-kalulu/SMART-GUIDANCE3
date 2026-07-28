@@ -1,0 +1,17 @@
+﻿# Root monorepo
+serve.log
+
+# Backend (Laravel)
+backend/vendor/
+backend/node_modules/
+backend/.env
+backend/public/build
+backend/public/hot
+backend/public/storage
+backend/storage/*.key
+
+# Frontend (Next.js)
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env*.local

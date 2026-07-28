@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ $data['title'] ?? 'System Report' }} - CareerGuide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DejaVu Sans', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 10px;
+            line-height: 1.4;
+            color: #000000;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            color: #1e40af;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 9px;
+            color: #000000;
+            margin-top: 5px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #1e40af;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            color: text-white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Report Info */
+        .report-info {
+            background: #000000;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 9px;
+        }
+
+        .report-info table {
+            width: 100%;
+        }
+
+        .report-info td {
+            padding: 3px;
+        }
+
+        .report-info td:first-child {
+            font-weight: bold;
+            width: 120px;
+        }
+
+        /* Summary Cards */
+        .summary-section {
+            margin-bottom: 20px;
+        }
+
+        .summary-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #000000;
+        }
+
+        .summary-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .summary-card {
+            background: #eff6ff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .summary-card .label {
+            font-size: 8px;
+            color: #000000;
+            text-transform: uppercase;
+        }
+
+        .summary-card .value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 8px;
+        }
+
+        .data-table th {
+            background: #1e40af;
+            color: text-white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .data-table td {
+            border: 1px solid #000000;
+            padding: 6px;
+            vertical-align: top;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #000000;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 8px;
+            color: #000000;
+            padding: 10px;
+            border-top: 1px solid #ffffff;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        /* Status Badges */
+        .badge-active {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .badge-inactive {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        /* Watermark */
+        .watermark {
+            position: fixed;
+            bottom: 50px;
+            right: 30px;
+            opacity: 0.05;
+            font-size: 40px;
+            font-weight: bold;
+            color: #2563eb;
+            transform: rotate(-20deg);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Watermark -->
+    <div class="watermark">CONFIDENTIAL</div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <span class="logo-text">CG</span>
+        </div>
+        <h1>Smart Career & Subject Guidance Tool</h1>
+        <p>Luwinga Secondary School, Mzuzu City, Malawi</p>
+        <p>{{ $data['title'] ?? 'System Report' }}</p>
+    </div>
+
+    <!-- Report Info -->
+    <div class="report-info">
+        <table>
+            <tr><td>Generated On:</td><td>{{ now()->format('F j, Y g:i A') }}</td></tr>
+            @if($dateFrom || $dateTo)
+            <tr><td>Date Range:</td><td>{{ $dateFrom ?: 'Start' }} to {{ $dateTo ?: 'Today' }}</td></tr>
+            @endif
+            <tr><td>Generated By:</td><td>{{ auth()->user()->name }} ({{ ucfirst(auth()->user()->role) }})</td></tr>
+            <tr><td>Report ID:</td><td>{{ strtoupper(uniqid()) }}</td></tr>
+        </table>
+    </div>
+
+    <!-- Summary Section -->
+    @if(isset($data['summary']))
+    <div class="summary-section">
+        <div class="summary-title">📊 Executive Summary</div>
+        <div class="summary-grid">
+            @foreach(array_slice($data['summary'], 0, 8) as $key => $value)
+            <div class="summary-card">
+                <div class="label">{{ str_replace('_', ' ', strtoupper($key)) }}</div>
+                <div class="value">
+                    @if(is_array($value))
+                        {{ count($value) }}
+                    @else
+                        {{ $value }}
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    <!-- Detailed Data Table -->
+    <div class="summary-section">
+        <div class="summary-title">📋 Detailed Report Data</div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    @foreach($data['headers'] as $header)
+                    <th>{{ $header }}</th>
+                    @endforeach
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($data['rows'] as $row)
+                <tr>
+                    @foreach($row as $cell)
+                    <td>
+                        @if(is_numeric($cell) && strlen($cell) > 4 && !str_contains($cell, '%'))
+                            {{ number_format($cell) }}
+                        @else
+                            {{ $cell }}
+                        @endif
+                    </td>
+                    @endforeach
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="{{ count($data['headers']) }}" style="text-align: center; padding: 40px;">
+                        No data available for the selected filters and date range.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Additional Summary Details -->
+    @if(isset($data['summary']) && is_array($data['summary']) && count($data['summary']) > 0)
+    <div class="summary-section">
+        <div class="summary-title">📈 Statistical Summary</div>
+        <table class="data-table" style="width: 60%;">
+            <thead>
+                <tr><th>Metric</th><th>Value</th><th>Percentage</th></tr>
+            </thead>
+            <tbody>
+                @foreach($data['summary'] as $key => $value)
+                @if(!is_array($value) && !is_null($value))
+                <tr>
+                    <td>{{ str_replace('_', ' ', ucfirst($key)) }}</td>
+                    <td>{{ number_format($value) }}</td>
+                    <td>
+                        @if(isset($data['summary']['total_users']) && $data['summary']['total_users'] > 0)
+                            {{ round(($value / $data['summary']['total_users']) * 100, 1) }}%
+                        @else
+                            N/A
+                        @endif
+                    </td>
+                </tr>
+                @endif
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endif
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>This report is automatically generated by the Smart Career & Subject Guidance Tool.</p>
+        <p>Luwinga Secondary School - Empowering Students for Success</p>
+        <p>Page 1 of 1 | Generated: {{ now()->format('Y-m-d H:i:s') }}</p>
+    </div>
+</body>
+</html>

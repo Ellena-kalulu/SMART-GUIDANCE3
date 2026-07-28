@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Career Match Report — {{ $user->name }}</title>
+<style>
+body { font-family: 'DejaVu Sans', sans-serif; font-size: 12px; line-height: 1.6; color: #000000; margin: 0; padding: 20px; }
+.header { text-align: center; margin-bottom: 24px; border-bottom: 3px solid #2563eb; padding-bottom: 16px; }
+.header h1 { color: #1e40af; margin: 0; font-size: 22px; font-weight: bold; }
+.header h2 { color: #2563eb; margin: 6px 0 0; font-size: 16px; }
+.header p { margin: 4px 0 0; color: #000000; font-size: 11px; }
+.student-info { background: #eff6ff; padding: 12px 16px; border-radius: 6px; margin-bottom: 20px; }
+.info-row { display: inline-block; width: 48%; margin-bottom: 4px; }
+.label { font-weight: bold; color: #374151; display: inline-block; width: 110px; }
+.value { color: #1e40af; }
+.section-title { color: #1e40af; font-size: 14px; font-weight: bold; margin: 20px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #2563eb; }
+.career-card { border: 1px solid #dbeafe; border-radius: 6px; padding: 14px; margin-bottom: 14px; page-break-inside: avoid; }
+.career-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.career-title { font-size: 14px; font-weight: bold; color: #1e40af; }
+.career-category { font-size: 10px; color: #000000; text-transform: uppercase; letter-spacing: 0.05em; }
+.score-badge { background: #dbeafe; color: #1d4ed8; font-weight: bold; padding: 3px 10px; border-radius: 12px; font-size: 13px; float: right; }
+.score-bar-bg { background: #dbeafe; height: 8px; border-radius: 4px; margin: 8px 0; }
+.score-bar-fill { height: 8px; border-radius: 4px; }
+.desc { font-size: 11px; color: #000000; margin-bottom: 8px; }
+.skills-wrap { margin-top: 6px; }
+.skill-tag { display: inline-block; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin: 2px 2px 2px 0; }
+.reason { font-style: italic; font-size: 10px; color: #000000; margin-top: 6px; }
+.subjects-row { margin-top: 6px; font-size: 11px; }
+.subjects-label { font-weight: bold; color: #000000; }
+.empty-state { text-align: center; padding: 30px; color: #000000; font-size: 12px; }
+.footer { text-align: center; font-size: 10px; color: #000000; margin-top: 30px; border-top: 1px solid #dbeafe; padding-top: 10px; }
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>Luwinga Secondary School</h1>
+    <h2>Career Match Report</h2>
+    <p>Smart Career &amp; Subject Guidance Tool &mdash; Generated {{ now()->format('F d, Y') }}</p>
+</div>
+
+<div class="student-info">
+    <div class="info-row"><span class="label">Student:</span><span class="value">{{ $user->name }}</span></div>
+    <div class="info-row"><span class="label">Email:</span><span class="value">{{ $user->email }}</span></div>
+    <div class="info-row"><span class="label">Form Level:</span><span class="value">{{ $user->studentProfile?->form_level ?? 'N/A' }}</span></div>
+    <div class="info-row"><span class="label">Stream:</span><span class="value">{{ $user->studentProfile?->stream ?? 'N/A' }}</span></div>
+    <div class="info-row"><span class="label">Total Matches:</span><span class="value">{{ $careers->count() }} career(s)</span></div>
+    <div class="info-row"><span class="label">Report Date:</span><span class="value">{{ now()->format('d M Y') }}</span></div>
+</div>
+
+<div class="section-title">Career Match Analysis</div>
+
+@if($careers->isEmpty())
+<div class="empty-state">No career recommendations found. Complete the career assessment to generate your personalised career matches.</div>
+@else
+@foreach($careers as $rec)
+@php
+    $career = $rec->recommended;
+    $score  = (int) $rec->confidence_score;
+    $color  = $score >= 75 ? '#2563eb' : ($score >= 50 ? '#2563eb' : '#000000');
+    $skills = $career?->required_skills ? array_slice(explode(',', $career->required_skills), 0, 6) : [];
+    $reqSubjects = $career?->subjects?->where('pivot.importance', 'required') ?? collect();
+@endphp
+@if($career)
+<div class="career-card">
+    <div>
+        <span class="score-badge">{{ $score }}% match</span>
+        <div class="career-category">{{ $career->category }}</div>
+        <div class="career-title">{{ $career->title }}</div>
+    </div>
+    <div class="score-bar-bg">
+        <div class="score-bar-fill" style="width: {{ $score }}%; background: {{ $color }};"></div>
+    </div>
+    <div class="desc">{{ $career->description }}</div>
+    @if(!empty($skills))
+    <div class="skills-wrap">
+        @foreach($skills as $skill)
+        <span class="skill-tag">{{ trim($skill) }}</span>
+        @endforeach
+    </div>
+    @endif
+    @if($reqSubjects->isNotEmpty())
+    <div class="subjects-row">
+        <span class="subjects-label">Required Subjects:</span>
+        {{ $reqSubjects->pluck('name')->join(', ') }}
+    </div>
+    @endif
+    @if($rec->reason)
+    <div class="reason">{{ $rec->reason }}</div>
+    @endif
+</div>
+@endif
+@endforeach
+@endif
+
+<div class="footer">
+    <p>This report is auto-generated by the Smart Career &amp; Subject Guidance Tool.</p>
+    <p>Luwinga Secondary School, Mzuzu City, Malawi &mdash; For guidance, speak with your school counsellor.</p>
+</div>
+</body>
+</html>

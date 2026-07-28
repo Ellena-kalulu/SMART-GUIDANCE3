@@ -1,0 +1,163 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Scholarship;
+use Illuminate\Database\Seeder;
+
+class ScholarshipSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $scholarships = [
+            [
+                'name'             => 'Malawi Government Bursary (Public Universities)',
+                'provider'         => 'Government of Malawi – Ministry of Education',
+                'description'      => 'The government bursary is awarded to Form 4 leavers admitted to public universities in Malawi including UNIMA, Mzuzu University, MUBAS, LUANAR, and KUHeS. It covers tuition fees and provides a living allowance. Priority is given to students from low-income families with excellent MSCE results.',
+                'amount'           => 'Full tuition + living allowance',
+                'eligibility_path' => 'Any',
+                'min_grade'        => 65.0,
+                'eligible_careers' => null,
+                'application_url'  => 'https://www.maneb.edu.mw',
+                'deadline'         => 'After MSCE results release (typically October–November)',
+                'type'             => 'government',
+            ],
+            [
+                'name'             => 'UNIMA Vice Chancellor\'s Scholarship',
+                'provider'         => 'University of Malawi (UNIMA)',
+                'description'      => 'Awarded to top-performing students admitted to the University of Malawi. Recipients must show outstanding academic ability at MSCE level. The scholarship covers tuition fees for the full duration of study. Available across all faculties including Medicine, Law, Education, and Business.',
+                'amount'           => 'Full tuition waiver',
+                'eligibility_path' => 'Any',
+                'min_grade'        => 80.0,
+                'eligible_careers' => 'Doctor,Lawyer,Engineer,Teacher,Accountant',
+                'application_url'  => 'https://www.unima.mw',
+                'deadline'         => 'Upon admission (December–January)',
+                'type'             => 'university',
+            ],
+            [
+                'name'             => 'Mzuzu University Merit Bursary',
+                'provider'         => 'Mzuzu University',
+                'description'      => 'Merit-based bursary awarded to students with excellent MSCE results who are admitted to Mzuzu University. Covers partial or full tuition. Particularly available for Education, Environmental Sciences, and ICT programmes.',
+                'amount'           => 'Partial to full tuition',
+                'eligibility_path' => 'Any',
+                'min_grade'        => 70.0,
+                'eligible_careers' => 'Teacher,Environmental Scientist,ICT Specialist',
+                'application_url'  => 'https://www.mzuni.ac.mw',
+                'deadline'         => 'Upon admission',
+                'type'             => 'university',
+            ],
+            [
+                'name'             => 'LUANAR Agricultural Sciences Scholarship',
+                'provider'         => 'Lilongwe University of Agriculture and Natural Resources (LUANAR)',
+                'description'      => 'Targeted at students pursuing Agriculture, Natural Resources, and Nutrition sciences. LUANAR offers bursaries and scholarships funded by government and development partners. Students with a Science or Agriculture background are given priority.',
+                'amount'           => 'MK 500,000 – MK 800,000 per year',
+                'eligibility_path' => 'Science',
+                'min_grade'        => 60.0,
+                'eligible_careers' => 'Agricultural Scientist,Nutritionist,Environmental Scientist',
+                'application_url'  => 'https://www.luanar.ac.mw',
+                'deadline'         => 'March each year',
+                'type'             => 'university',
+            ],
+            [
+                'name'             => 'KUHeS Health Sciences Bursary',
+                'provider'         => 'Kamuzu University of Health Sciences (KUHeS)',
+                'description'      => 'Bursary for students admitted to Medicine, Pharmacy, Nursing, and other health sciences programmes at KUHeS. Funded by the Ministry of Health and international partners. Requires excellent Science MSCE results and commitment to serve in Malawi after graduation.',
+                'amount'           => 'Full tuition + stipend',
+                'eligibility_path' => 'Science',
+                'min_grade'        => 75.0,
+                'eligible_careers' => 'Medical Doctor,Pharmacist,Nurse,Medical Laboratory Scientist,Veterinary Doctor',
+                'application_url'  => 'https://www.kuhes.ac.mw',
+                'deadline'         => 'January each year',
+                'type'             => 'government',
+            ],
+            [
+                'name'             => 'Girls\' Education Initiative (GEI) Scholarship',
+                'provider'         => 'UNICEF Malawi / Ministry of Gender',
+                'description'      => 'Scholarship specifically for female students to encourage girls\' participation in STEM fields. Covers secondary school fees and provides a stipend for top-performing girls in Form 3 and Form 4. Applications are open to all female students with strong Science grades.',
+                'amount'           => 'School fees + MK 20,000/month stipend',
+                'eligibility_path' => 'Science',
+                'min_grade'        => 60.0,
+                'eligible_careers' => 'Doctor,Engineer,Nurse,Environmental Scientist,Agricultural Scientist',
+                'application_url'  => null,
+                'deadline'         => 'July each year',
+                'type'             => 'ngo',
+            ],
+            [
+                'name'             => 'MUBAS Business Excellence Scholarship',
+                'provider'         => 'Malawi University of Business and Applied Sciences (MUBAS)',
+                'description'      => 'Awarded to top Form 4 leavers admitted to Business, Accounting, or Technology programmes at MUBAS. Requires strong performance in Mathematics and Business Studies at MSCE level. Covers tuition fees.',
+                'amount'           => 'Full tuition',
+                'eligibility_path' => 'Commerce',
+                'min_grade'        => 65.0,
+                'eligible_careers' => 'Accountant,Business Analyst,Economist,ICT Specialist',
+                'application_url'  => 'https://www.mubas.ac.mw',
+                'deadline'         => 'Upon admission',
+                'type'             => 'university',
+            ],
+            [
+                'name'             => 'African Union Scholarship Programme',
+                'provider'         => 'African Union Commission',
+                'description'      => 'Pan-African scholarship for outstanding students to study at universities across Africa. Malawi students can apply after completing their MSCE. Covers full tuition, accommodation, and flights to the host university. Strong academic performance and community involvement are key selection criteria.',
+                'amount'           => 'Full scholarship (tuition + accommodation + flights)',
+                'eligibility_path' => 'Any',
+                'min_grade'        => 80.0,
+                'eligible_careers' => null,
+                'application_url'  => 'https://www.au.int/en/scholarships',
+                'deadline'         => 'February each year',
+                'type'             => 'international',
+            ],
+            [
+                'name'             => 'Malawi Red Cross Society Nursing Bursary',
+                'provider'         => 'Malawi Red Cross Society',
+                'description'      => 'Bursary for students admitted to Nursing programmes at accredited institutions in Malawi. Priority is given to students from rural areas who plan to work in underserved communities. Covers tuition and provides a small monthly stipend.',
+                'amount'           => 'Tuition + MK 15,000/month',
+                'eligibility_path' => 'Science',
+                'min_grade'        => 55.0,
+                'eligible_careers' => 'Nurse,Clinical Officer,Medical Laboratory Scientist',
+                'application_url'  => null,
+                'deadline'         => 'April each year',
+                'type'             => 'ngo',
+            ],
+            [
+                'name'             => 'Standard Bank Malawi Education Loan',
+                'provider'         => 'Standard Bank Malawi',
+                'description'      => 'Low-interest education loan for students admitted to accredited universities and colleges in Malawi. Not a grant — repayment starts after graduation. Available for any field of study. Requires a guarantor. Speak to a Standard Bank branch for current interest rates and terms.',
+                'amount'           => 'Up to MK 5,000,000',
+                'eligibility_path' => 'Any',
+                'min_grade'        => 50.0,
+                'eligible_careers' => null,
+                'application_url'  => 'https://www.standardbank.com.mw',
+                'deadline'         => 'Ongoing',
+                'type'             => 'private',
+            ],
+            [
+                'name'             => 'Airtel Malawi STEM Scholarship',
+                'provider'         => 'Airtel Malawi',
+                'description'      => 'Scholarship supporting students pursuing Science, Technology, Engineering, and Mathematics (STEM) degrees at Malawian universities. Awarded to students with strong MSCE results in Mathematics and Sciences. Recipients also get internship opportunities at Airtel.',
+                'amount'           => 'MK 300,000/year + internship',
+                'eligibility_path' => 'Science',
+                'min_grade'        => 70.0,
+                'eligible_careers' => 'Engineer,ICT Specialist,Software Developer,Telecommunications',
+                'application_url'  => null,
+                'deadline'         => 'August each year',
+                'type'             => 'private',
+            ],
+            [
+                'name'             => 'USAID Malawi Higher Education Development (MoHED) Scholarship',
+                'provider'         => 'USAID Malawi',
+                'description'      => 'Scholarship for Malawian students to attend universities both locally and abroad. Focuses on STEM fields, Health, Agriculture, and Education. Highly competitive — requires outstanding MSCE grades, English proficiency, and a personal statement on contribution to Malawi\'s development.',
+                'amount'           => 'Full scholarship (tuition + living expenses)',
+                'eligibility_path' => 'Any',
+                'min_grade'        => 78.0,
+                'eligible_careers' => 'Doctor,Engineer,Agricultural Scientist,Teacher',
+                'application_url'  => 'https://www.usaid.gov/malawi',
+                'deadline'         => 'January each year',
+                'type'             => 'international',
+            ],
+        ];
+
+        foreach ($scholarships as $s) {
+            Scholarship::firstOrCreate(['name' => $s['name']], $s);
+        }
+    }
+}
